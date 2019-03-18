@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <link rel="icon" type="image/png" href="https://banner2.kisspng.com/20180330/luw/kisspng-smiley-emoticon-clip-art-faces-5abdeb889fe966.741165541522396040655.jpg"/>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <icon src="">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 80%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        -webkit-overflow-scrolling: touch;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <button onclick="tilt()">Toggle tilt</button>
+    <button onclick="zoomIn()">+</button>
+    <button onclick="zoomOut()">-</button>
+    <button onclick="toggleFullScreen()">Toggle Fullscreen</button>
+
+    <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
+    async defer></script>
+    <script>
+
+    var map;
+    var zoomValue;
+
+    function toggleFullScreen() {
+      if(!document.fullscreenElement) {
+        document.body.requestFullscreen()
+      } else {
+        document.exitFullscreen()
+      }
+    };
+
+    function zoomIn() {
+      map.setZoom(map.getZoom()+1)
+    };
+
+    function zoomOut() {
+      map.setZoom(map.getZoom()-1)
+    };
+
+    function tilt() {
+      if(map.getTilt() == 0) {
+        map.setTilt(45)
+      } else {
+        map.setTilt(0)
+      }
+    };
+
+    function initMap() {
+      var myLatlng = new google.maps.LatLng( 59.331614, 18.071244);
+      var mapOptions = {
+        zoom: 23,
+        center: myLatlng,
+        zoomControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        mapTypeId: 'satellite'
+      };
+      map = new google.maps.Map(document.getElementById('map'),
+          mapOptions);
+      map.setTilt(45);  //set 45 imagery
+
+      var markerFixed = new google.maps.Marker({
+        position: {lat: 59.331614, lng: 18.071244},
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello'
+      });
+
+      var markerDraggable = new google.maps.Marker({
+        position: {lat: 59.331646, lng: 18.071275},
+        map: map,
+        title: 'Hello2',
+        animation: google.maps.Animation.DROP,
+        draggable: true
+      });
+    };
+
+    /*
+      var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 59.3498092, lng: 18.0684758},
+          zoom: 15
+        });
+      }
+      */
+    </script>
+
+  </body>
+</html>
