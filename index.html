@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="manifest" href="/manifest.json">
     <title>Simple Map</title>
-    <link rel="icon" type="image/png" href="https://banner2.kisspng.com/20180330/luw/kisspng-smiley-emoticon-clip-art-faces-5abdeb889fe966.741165541522396040655.jpg"/>
+    <link rel="icon" type="image/png" href="smiley.png"/>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <icon src="">
@@ -27,78 +28,121 @@
     <button onclick="zoomIn()">+</button>
     <button onclick="zoomOut()">-</button>
     <button onclick="toggleFullScreen()">Toggle Fullscreen</button>
+    <button id="installBtn">Install Webapp</button>
 
     <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
     async defer></script>
+
     <script>
 
-    var map;
-    var zoomValue;
-
-    function toggleFullScreen() {
-      if(!document.fullscreenElement) {
-        document.body.requestFullscreen()
-      } else {
-        document.exitFullscreen()
-      }
-    };
-
-    function zoomIn() {
-      map.setZoom(map.getZoom()+1)
-    };
-
-    function zoomOut() {
-      map.setZoom(map.getZoom()-1)
-    };
-
-    function tilt() {
-      if(map.getTilt() == 0) {
-        map.setTilt(45)
-      } else {
-        map.setTilt(0)
-      }
-    };
-
-    function initMap() {
-      var myLatlng = new google.maps.LatLng( 59.331614, 18.071244);
-      var mapOptions = {
-        zoom: 23,
-        center: myLatlng,
-        zoomControl: false,
-        rotateControl: false,
-        fullscreenControl: false,
-        mapTypeId: 'satellite'
-      };
-      map = new google.maps.Map(document.getElementById('map'),
-          mapOptions);
-      map.setTilt(45);  //set 45 imagery
-
-      var markerFixed = new google.maps.Marker({
-        position: {lat: 59.331614, lng: 18.071244},
-        map: map,
-        animation: google.maps.Animation.BOUNCE,
-        title: 'Hello'
-      });
-
-      var markerDraggable = new google.maps.Marker({
-        position: {lat: 59.331646, lng: 18.071275},
-        map: map,
-        title: 'Hello2',
-        animation: google.maps.Animation.DROP,
-        draggable: true
-      });
-    };
-
-    /*
       var map;
+      var zoomValue;
+      var btnAdd = document.getElementById("installBtn")
+
+      function toggleFullScreen() {
+        if(!document.fullscreenElement) {
+          document.body.requestFullscreen()
+        } else {
+          document.exitFullscreen()
+        }
+      };
+
+      function zoomIn() {
+        map.setZoom(map.getZoom()+1)
+      };
+
+      function zoomOut() {
+        map.setZoom(map.getZoom()-1)
+      };
+
+      function tilt() {
+        if(map.getTilt() == 0) {
+          map.setTilt(45)
+        } else {
+          map.setTilt(0)
+        }
+      };
 
       function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 59.3498092, lng: 18.0684758},
-          zoom: 15
+        var myLatlng = new google.maps.LatLng( 59.331614, 18.071244);
+        var mapOptions = {
+          zoom: 23,
+          center: myLatlng,
+          zoomControl: false,
+          rotateControl: false,
+          fullscreenControl: false,
+          mapTypeId: 'satellite'
+        };
+        map = new google.maps.Map(document.getElementById('map'),
+            mapOptions);
+        map.setTilt(45);  //set 45 imagery
+
+        var markerFixed = new google.maps.Marker({
+          position: {lat: 59.331614, lng: 18.071244},
+          map: map,
+          animation: google.maps.Animation.BOUNCE,
+          title: 'Hello'
         });
-      }
-      */
+
+        var markerDraggable = new google.maps.Marker({
+          position: {lat: 59.331646, lng: 18.071275},
+          map: map,
+          title: 'Hello2',
+          animation: google.maps.Animation.DROP,
+          draggable: true
+        });
+      };
+
+        //make the webpage more app like
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+              // registration failed :(
+              console.log('ServiceWorker registration failed: ', err);
+            });
+          });
+        };
+
+        let deferredPrompt;
+        //listen for beforeinstallprompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+          // Prevent Chrome 67 and earlier from automatically showing the prompt
+          e.preventDefault();
+          // Stash the event so it can be triggered later.
+          deferredPrompt = e;
+          // Update UI notify the user they can add to home screen
+          btnAdd.style.display = 'block';
+
+        });
+
+        btnAdd.addEventListener('click', (e) => {
+        // hide our user interface that shows our A2HS button
+        btnAdd.style.display = 'none';
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice
+          .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+          });
+      });
+
+      //Determine if the app was successfully installed
+      window.addEventListener('appinstalled', (evt) => {
+        app.logEvent('a2hs', 'installed');
+        alert("Successfully installed");
+      });
+
+
+
     </script>
 
   </body>
