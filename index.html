@@ -28,7 +28,7 @@
     <button onclick="zoomIn()">+</button>
     <button onclick="zoomOut()">-</button>
     <button onclick="toggleFullScreen()">Toggle Fullscreen</button>
-    <button id="installBtn">Install Webapp</button>
+    <button class="add-button" id="installBtn">Install Webapp</button>
 
     <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
     async defer></script>
@@ -37,7 +37,6 @@
 
       var map;
       var zoomValue;
-      var btnAdd = document.getElementById("installBtn")
 
       function toggleFullScreen() {
         if(!document.fullscreenElement) {
@@ -105,7 +104,7 @@
             });
           });
         };
-
+        /*
         var deferredPrompt;
         //listen for beforeinstallprompt
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -119,30 +118,36 @@
           btnAdd.style.display = 'block';
 
         });
+        */
 
-        btnAdd.addEventListener('click', (e) => {
-        // hide our user interface that shows our A2HS button
+        let deferredPrompt;
+        const btnAdd = document.querySelector('.add-button');
         btnAdd.style.display = 'none';
-        // Show the prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice
-          .then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              console.log('User accepted the A2HS prompt');
-            } else {
-              console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-          });
-      });
 
-      //Determine if the app was successfully installed
-      window.addEventListener('appinstalled', (evt) => {
-        app.logEvent('a2hs', 'installed');
-        alert("Successfully installed");
-      });
+        window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+        addBtn.style.display = 'block';
 
+        addBtn.addEventListener('click', (e) => {
+          // hide our user interface that shows our A2HS button
+          addBtn.style.display = 'none';
+          // Show the prompt
+          deferredPrompt.prompt();
+          // Wait for the user to respond to the prompt
+          deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+        });
+      });
 
 
     </script>
