@@ -61,28 +61,6 @@
         }
       };
 
-      function goToLocation(lat, lng) {
-
-        var latlon = new google.maps.LatLng(lat , lng);
-        map.setCenter(latlon);
-        map.setZoom(18)
-      }
-
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-          alert("Geolocation is not supported by this browser.");
-        }
-      }
-
-      function showPosition(position) {
-        var latlon = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
-        alert("showing here position")
-        //todo
-        map.setCenter(latlon);
-      }
-
       function initMap() {
         var myLatlng = new google.maps.LatLng( 59.331614, 18.071244);
         var mapOptions = {
@@ -129,6 +107,28 @@
         });
 
       };
+
+      function goToLocation(lat, lng) {
+
+        var latlon = new google.maps.LatLng(lat , lng);
+        map.setCenter(latlon);
+        map.setZoom(18)
+      }
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+
+      function showPosition(position) {
+        var latlon = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+        map.setCenter(latlon);
+        map.setZoom(18)
+
+      }
 
         //make the webpage more app like
         if ('serviceWorker' in navigator) {
