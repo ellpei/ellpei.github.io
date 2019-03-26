@@ -4,32 +4,21 @@
     <link rel="manifest" href="/manifest.json">
     <title>Simple Map</title>
     <link rel="icon" type="image/png" href="smiley.png"/>
+    <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <icon src="">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 80%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        -webkit-overflow-scrolling: touch;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+
   </head>
   <body>
     <div id="map"></div>
-    <button onclick="tilt()">Toggle tilt</button>
-    <button onclick="zoomIn()">+</button>
-    <button onclick="zoomOut()">-</button>
-    <button onclick="toggleFullScreen()">Toggle Fullscreen</button>
-    <button class="add-button" id="installBtn">Install Webapp</button>
-
+      <div class="button-container">
+      <button onclick="tilt()">Toggle tilt</button>
+      <button onclick="zoomIn()">+</button>
+      <button onclick="zoomOut()">-</button>
+      <button onclick="toggleFullScreen()">Toggle Fullscreen</button>
+      <button class="add-button" id="installBtn">Install Webapp</button>
+    </div>
     <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
     async defer></script>
 
@@ -104,21 +93,7 @@
             });
           });
         };
-        /*
-        var deferredPrompt;
-        //listen for beforeinstallprompt
-        window.addEventListener('beforeinstallprompt', (e) => {
-          // Prevent Chrome 67 and earlier from automatically showing the prompt
-          alert("add event listener beforeinstallprompt")
-          console.log('beforeinstallprompt Event fired');
-          e.preventDefault();
-          // Stash the event so it can be triggered later.
-          deferredPrompt = e;
-          // Update UI notify the user they can add to home screen
-          btnAdd.style.display = 'block';
 
-        });
-        */
 
         let deferredPrompt;
         const btnAdd = document.querySelector('.add-button');

@@ -1,0 +1,32 @@
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 80%;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #ffd3df;
+}
+
+button {
+  border-radius: 5px;
+  color: black;
+  padding: 10px 15px 10px 15px;
+  border: 2px solid #ed4775; /* Green */
+  background-color: #ef81a0;
+  /*box-shadow: 1px 1px 2px 2px #ccc;*/
+  margin: 10px 5px 10px 5px;
+
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
