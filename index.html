@@ -114,7 +114,7 @@
         var latlon = new google.maps.LatLng(lat , lng);
         map.setCenter(latlon);
         map.setZoom(18)
-      }
+      };
 
       function getLocation() {
         if (navigator.geolocation) {
@@ -122,14 +122,14 @@
         } else {
           alert("Geolocation is not supported by this browser.");
         }
-      }
+      };
 
       function showPosition(position) {
         var latlon = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
         map.setCenter(latlon);
         map.setZoom(18)
 
-      }
+      };
       /*
         //make the webpage more app like
         if ('serviceWorker' in navigator) {
