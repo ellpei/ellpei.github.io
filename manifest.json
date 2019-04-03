@@ -1,6 +1,6 @@
 {
-  "short_name": "TESTAPP",
-  "name": "Test test test",
+  "short_name": "Labb1App",
+  "name": "Laboration 1 - The beginning",
   "icons": [
     {
       "src": "smiley.png",
@@ -9,7 +9,7 @@
     }
   ],
   "start_url": "/",
-  "background_color": "#3367D6",
+  "background_color": "#ff6db6",
   "display": "fullscreen",
   "theme_color": "#3367D6"
 }
