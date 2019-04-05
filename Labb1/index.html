@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="manifest" href="/manifest.json">
+    <title>Labb 1</title>
+    <link rel="icon" type="image/png" href="smiley.png"/>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <icon src="">
+
+  </head>
+  <body>
+    <div id="map">
+    </div>
+
+    <div class="button-container">
+      <button onclick="tilt()">Toggle tilt</button>
+      <button onclick="zoomIn()">+</button>
+      <button onclick="zoomOut()">-</button>
+      <button onclick="toggleFullScreen()">Toggle Fullscreen</button>
+
+    </div>
+
+    <div class="button-container">
+      <button class="here-btn" onclick="getLocation()">Here</button>
+      <button class="niceplace-btn" onclick="goToLocation(59.357632, 18.039558)">Hagaparken</button>
+      <button class="borrelia-btn" onclick="goToLocation(59.327382, 18.035668)">Mälarpaviljongen</button>
+      <button class="addPin" onclick="dropPinHere()">Add pin here</button>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
+    async defer></script>
+
+    <script>
+
+      var map;
+      var zoomValue;
+
+      function dropPinHere() {
+        navigator.geolocation.getCurrentPosition(positionPin);
+      };
+
+      function positionPin(position) {
+
+        var marker = new google.maps.Marker({
+          position: {lat: position.coords.latitude, lng: position.coords.longitude},
+          map: map,
+          animation: google.maps.Animation.DROP,
+          title: 'Dropped Pin'
+        });
+      };
+
+      function toggleFullScreen() {
+        if(!document.fullscreenElement) {
+          document.body.requestFullscreen()
+        } else {
+          document.exitFullscreen()
+        }
+      };
+
+      function zoomIn() {
+        map.setZoom(map.getZoom()+1)
+      };
+
+      function zoomOut() {
+        map.setZoom(map.getZoom()-1)
+      };
+
+      function tilt() {
+        if(map.getTilt() == 0) {
+          map.setTilt(45)
+        } else {
+          map.setTilt(0)
+        }
+      };
+
+      function initMap() {
+        var myLatlng = new google.maps.LatLng( 59.331614, 18.071244);
+        var mapOptions = {
+          zoom: 12,
+          center: myLatlng,
+          zoomControl: false,
+          rotateControl: false,
+          fullscreenControl: false,
+          mapTypeId: 'satellite'
+        };
+        map = new google.maps.Map(document.getElementById('map'),
+            mapOptions);
+
+        map.setTilt(45);  //set 45 imagery
+
+        var markerFixed = new google.maps.Marker({
+          position: {lat: 59.331614, lng: 18.071244},
+          map: map,
+          animation: google.maps.Animation.BOUNCE,
+          title: 'Hello'
+        });
+
+        var markerDraggable = new google.maps.Marker({
+          position: {lat: 59.331646, lng: 18.071275},
+          map: map,
+          title: 'Hello2',
+          animation: google.maps.Animation.DROP,
+          draggable: true
+        });
+
+        var borrelia = new google.maps.Marker({
+          position: {lat: 59.357632, lng: 18.039558},
+          map: map,
+          title: 'Här får man borrelia',
+          animation: google.maps.Animation.DROP,
+          draggable: true
+        });
+
+        var najsplace = new google.maps.Marker({
+          position: {lat: 59.327382, lng: 18.035668},
+          map: map,
+          title: 'Här är det najs',
+          animation: google.maps.Animation.DROP,
+          draggable: true
+        });
+      };
+
+
+      function goToLocation(lat, lng) {
+
+        var latlon = new google.maps.LatLng(lat , lng);
+        map.setCenter(latlon);
+        map.setZoom(18)
+      };
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      };
+
+      function showPosition(position) {
+        var latlon = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+        map.setCenter(latlon);
+        map.setZoom(18)
+
+      };
+
+        //make the webpage more app like
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(err) {
+              // registration failed :(
+              console.log('ServiceWorker registration failed: ', err);
+            });
+          });
+        };
+
+        //show option to install web app (add to homescreen)
+        let deferredPrompt;
+        //const btnAdd = document.querySelector('.add-button');
+        //btnAdd.style.display = 'none';
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+        addBtn.style.display = 'block';
+
+        addBtn.addEventListener('click', (e) => {
+          // hide our user interface that shows our A2HS button
+          addBtn.style.display = 'none';
+          // Show the prompt
+          deferredPrompt.prompt();
+          // Wait for the user to respond to the prompt
+          deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+        });
+      });
+
+
+    </script>
+
+  </body>
+</html>

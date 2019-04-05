@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+  <link rel="stylesheet" href="styles.css">
+-->
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+  <link rel="stylesheet" href="css/onsen-css-components.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <ons-page>
+
+
+    <ons-tabbar swipeable position="auto">
+      <ons-tab page="main.html" label="Home" icon="fa-fort-awesome"></ons-tab>
+      <ons-tab page="page1.html" label="Hunt" icon="fa-paw"></ons-tab>
+      <ons-tab page="page2.html" label="Eat" icon="fa-utensils"></ons-tab>
+      <ons-tab page="page3.html" label="Sleep" icon="fa-bed"></ons-tab>
+      <ons-tab page="page4.html" label="About" icon="fa-question"></ons-tab>
+
+    </ons-tabbar>
+  </ons-page>
+
+  <template id="main.html">
+    <ons-page id="main">
+      <ons-toolbar>
+        <div class="center">A Guide of How to Cat</div>
+      </ons-toolbar>
+      <p>This is a guide of how to be a cat</p>
+      <img src="images/cat1.jpg" alt="cat1" width="50%" class="center">
+    </ons-page>
+  </template>
+
+  <template id="page1.html">
+    <ons-page id="page1">
+      <ons-toolbar>
+        <div class="center">How to Hunt</div>
+      </ons-toolbar>
+      <p>It is important to let your human know who is the real provider in the household. Demonstrate this by giving your human a tutorial on how to properly murder a large animal (them).</p>
+      <img src="images/hunt.jpg" alt="cat1" width="50%" class="center">
+    </ons-page>
+  </template>
+
+  <template id="page2.html">
+    <ons-page id="page2">
+      <ons-toolbar>
+        <div class="center">How to Eat</div>
+      </ons-toolbar>
+      <p>Eating at least 8 meals a day is of outmost importance. Eating so often also requires a lot of energy, so make your human feed you instead (good tip).</p>
+      <img src="images/eat.jpg" alt="cat1" width="50%" class="center">
+    </ons-page>
+  </template>
+
+  <template id="page3.html">
+    <ons-page id="page3">
+      <ons-toolbar>
+        <div class="center">How to Sleep</div>
+      </ons-toolbar>
+      <p>Sleep, sleep and then sleep some more. The more you sleep, the catter you are.</p>
+      <img src="images/sleep.jpg" alt="cat1" width="50%" class="center">
+    </ons-page>
+  </template>
+
+  <template id="page4.html">
+    <ons-page id="page4">
+      <ons-toolbar>
+        <div class="center">About Us</div>
+      </ons-toolbar>
+      <p>We don't even like cats.</p>
+      <img src="images/giveup.jpg" alt="cat1" width="50%" class="center">
+    </ons-page>
+  </template>
+
+</body>
+
+<script>
+
+function goToPage(pageNr) {
+
+  var myNavigator = document.getElementById('myNavigator');
+  var pageName = 'page' + pageNr + '.html'
+  myNavigator.pushPage(pageName);
+
+}
+</script>
+</html>
