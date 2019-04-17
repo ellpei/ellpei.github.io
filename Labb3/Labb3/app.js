@@ -172,10 +172,10 @@ function collectCat(catID) {
 		spel = true
 	}
 	collectedCats++;
-
+	document.getElementById('catcounter').innerHTML = collectedCats;
 	sound.src = 'sounds/angrycat.mp3'
 	sound.play()
-
+	window.navigator.vibrate(200); // vibrate for 200ms
 	const btnID = catID + '-katt-btn';
 	document.getElementById(btnID).disabled = true;
 
