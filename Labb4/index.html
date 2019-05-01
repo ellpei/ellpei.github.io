@@ -96,10 +96,10 @@ function deviceOrientationListener(event) {
   }
   //change channel
   currentchannel = getDirection(currentHeading);
-  pubnub.unsubscribeAll(); //unsubscripe to previous channel
+  pubnub.unsubscribeAll(); //unsubscribe to previous channel
   pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
-  pubnub.removeListener(channelListener);
-  pubnub.addListener(channelListener);
+  //pubnub.removeListener(channelListener);
+  //pubnub.addListener(channelListener);
   document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 };
 
