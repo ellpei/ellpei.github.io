@@ -24,8 +24,24 @@ h2 {
 }
 
 input {
-  border-radius: 50px;
+  border-radius: 5px;
   padding: 10px;
   border: none;
-  width: 80%;
+  display: inline-block;
+}
+
+#input-container {
+	width: 80%;
+	display: inline-block;
+	text-align: center;
+}
+
+button {
+	color: #ffffff;
+	margin-left: 20px;
+	border-radius: 50px;
+	padding: 10px 15px 10px 15px;
+	border: none;
+	background-color: #a84d74;
+	display: inline-block;
 }

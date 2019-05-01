@@ -19,8 +19,9 @@
     <div id="box"></div>
   </div>
   <p>Enter chat and press enter.</p>
-  <input id="input" placeholder="Your Message Here"/>
-
+  <div id="input-container">
+  <input id="input" placeholder="Your Message Here"/><button id="sendMsg">Send</button>
+</div>
   <p id="heading"></p>
 </body>
 
@@ -55,13 +56,13 @@ function getDirection(degrees) {
 var box = document.getElementById("box");
 var input = document.getElementById("input");
 var currentchannel = getDirection(0);
-document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
+document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 
 pubnub.subscribe({channels: [currentchannel]}); // Subscribe to a channel.
 pubnub.addListener({message: function(m) {
      box.innerHTML = box.innerHTML + 'channel ' + currentchannel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
 }});
-
+document.getElementById("sendMsg").addEventListener("click", sendMessage);
 window.addEventListener("deviceorientation", deviceOrientationListener, true);
 
 // Get event data
@@ -90,10 +91,12 @@ function deviceOrientationListener(event) {
   pubnub.unsubscribeAll(); //unsubscripe to previous channel
   pubnub.subscribe({channels: [channel]}); // Subscribe to the new channel
   document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
-  
+
 };
 
-
+function sendMessage() {
+  pubnub.publish({channel : currentchannel, message : input.value, x : (input.value='')})
+}
 function publish(e) {
 
   if(e.keyCode == 13 || e.charCode == 13) {
