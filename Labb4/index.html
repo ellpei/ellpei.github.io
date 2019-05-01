@@ -37,7 +37,7 @@ subscribeKey: 'sub-c-543d2354-6bff-11e9-81d5-56c3556875f9'
 
 });
 
-var currentHeading;
+var currentHeading = 0;
 window.addEventListener("deviceorientation", deviceOrientationListener, true);
 
 function getDirection(degrees) {
@@ -52,30 +52,20 @@ function getDirection(degrees) {
     return 'west'
   }
 }
+
+
+var box = document.getElementById("box");
+var input = document.getElementById("input");
+var channel = getDirection(currentHeading);
+document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
+pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
+pubnub.addListener({message: function(m) {
+     box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
+  }});
+/*
 (function(){
 
-  var box = document.getElementById("box"), input = document.getElementById("input"), channel = getDirection(
-
-    // Get event data
-    function deviceOrientationListener(event) {
-      var alpha   = event.alpha; //z axis rotation [0,360)
-      var beta     = event.beta; //x axis rotation [-180, 180]
-      var gamma   = event.gamma; //y axis rotation [-90, 90]
-
-      //Check if absolute values have been sent
-      if (typeof event.webkitCompassHeading !== "undefined") {
-        alpha = event.webkitCompassHeading; //for iOS devices
-        var heading = alpha
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
-        currentHeading = heading.toFixed([0]);
-      }
-      else {
-        var heading = 360 - alpha; //heading [0, 360)
-        document.getElementById("heading").innerHTML = heading.toFixed([0]);
-        currentHeading = heading.toFixed([0]);
-      }
-    }
-  );
+  var box = document.getElementById("box"), input = document.getElementById("input"), channel = getDirection();
   pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
   pubnub.addListener({message: function(m) {
        box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
@@ -87,7 +77,7 @@ function getDirection(degrees) {
       });
   });
 })();
-
+*/
 // Get event data
 function deviceOrientationListener(event) {
   var alpha   = event.alpha; //z axis rotation [0,360)
@@ -106,7 +96,27 @@ function deviceOrientationListener(event) {
     document.getElementById("heading").innerHTML = heading.toFixed([0]);
     currentHeading = heading.toFixed([0]);
   }
-}
+  if(channel != getDirection(currentHeading)) {
+    //change channel
+    channel = getDirection(currentHeading);
+    document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
+  }
+
+  pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
+  pubnub.addListener({message: function(m) {
+       box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
+    }});
+
+};
+
+
+function publish(e) {
+
+  if(e.keyCode == 13 || e.charCode == 13) {
+    pubnub.publish({channel : channel, message : input.value, x : (input.value='')})
+  }
+};
+input.addEventListener('keypress', publish);
 
 </script>
 
