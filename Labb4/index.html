@@ -38,8 +38,6 @@ subscribeKey: 'sub-c-543d2354-6bff-11e9-81d5-56c3556875f9'
 
 });
 
-var currentHeading = 0;
-
 function getDirection(degrees) {
 
   if(degrees <= 45 || degrees > 315) {
@@ -56,14 +54,13 @@ function getDirection(degrees) {
 
 var box = document.getElementById("box");
 var input = document.getElementById("input");
-var channel = getDirection(currentHeading);
+var currentchannel = getDirection(0);
 document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
 
-pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
+pubnub.subscribe({channels: [currentchannel]}); // Subscribe to a channel.
 pubnub.addListener({message: function(m) {
-     box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
+     box.innerHTML = box.innerHTML + 'channel ' + currentchannel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
 }});
-
 
 window.addEventListener("deviceorientation", deviceOrientationListener, true);
 
@@ -72,7 +69,7 @@ function deviceOrientationListener(event) {
   var alpha   = event.alpha; //z axis rotation [0,360)
   var beta     = event.beta; //x axis rotation [-180, 180]
   var gamma   = event.gamma; //y axis rotation [-90, 90]
-
+  var currentHeading;
   //Check if absolute values have been sent
   if (typeof event.webkitCompassHeading !== "undefined") {
     alpha = event.webkitCompassHeading; //for iOS devices
@@ -92,17 +89,15 @@ function deviceOrientationListener(event) {
   }
   pubnub.unsubscribeAll(); //unsubscripe to previous channel
   pubnub.subscribe({channels: [channel]}); // Subscribe to the new channel
-  pubnub.addListener({message: function(m) {
-       box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
-  }});
-
+  document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
+  
 };
 
 
 function publish(e) {
 
   if(e.keyCode == 13 || e.charCode == 13) {
-    pubnub.publish({channel : channel, message : input.value, x : (input.value='')})
+    pubnub.publish({channel : currentchannel, message : input.value, x : (input.value='')})
   }
 };
 
