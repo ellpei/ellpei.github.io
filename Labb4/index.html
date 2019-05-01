@@ -16,7 +16,7 @@
   <div id="messages">
     messages here
   </div>
-
+  <button onclick="loadMessages()">Load Messages</button>
   <p id=”heading”></p>
 
   <textarea name="messagebox" rows="10" cols="30">The cat was playing in the garden.</textarea>
@@ -40,13 +40,40 @@ subscribeKey: 'sub-c-543d2354-6bff-11e9-81d5-56c3556875f9'
 
 var currentHeading;
 
+// 'north', 'south', 'east', 'west'
+
+function getDirection(degrees) {
+
+  if(degrees <= 45 || degrees > 315) {
+    return 'north';
+  } else if(degrees > 45 && degrees < 135) {
+    return 'east';
+  } else if(degrees >= 135 && degrees < 225) {
+    return 'south';
+  } else {
+    return 'west'
+  }
+}
+
 // Publish a simple message to the “demo_tutorial” channel pubnub:
 function publish() {
   var messagetxt = document.getElementById("messagebox").innerHTML;
-
-  pubnubDemo.publish({ message: { "color" : messagetxt }, channel: currentHeading });
+  var direction = getDirection(currentHeading);
+  pubnubDemo.publish({ message: { "color" : messagetxt }, channel: direction });
 
 }
+function loadMessages() {
+  var direction = getDirection(currentHeading);
+  pubnubDemo.subscribe({ channels: [direction]} );
+}
+
+pubnubDemo.addListener({
+  message: function(message){
+    console.log(message)
+    document.getElementById("messages").innerHTML += '<br> ' + message;
+  }
+});
+
 // Get event data
 function deviceOrientationListener(event) {
   var alpha   = event.alpha; //z axis rotation [0,360)
