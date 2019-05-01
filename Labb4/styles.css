@@ -4,16 +4,20 @@ html {
   background-color:  	#e8ddda;
   color: #000000;
   font-family: Tahoma, Geneva, sans-serif;
+  text-align: center;
+  align-content: center;
 }
 #box {
   padding: 20px;
   background-color: 	#f4f0ef;
   border-radius: 30px;
+  width: 80%;
+  display: inline-block;
 }
 
 input {
   border-radius: 50px;
   padding: 10px;
   border: none;
-  min-width: 500px;
+  width: 80%;
 }
