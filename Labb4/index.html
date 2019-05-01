@@ -12,26 +12,20 @@
 
 <body>
   <h1>Chat app</h1>
-  <h2>Messages:</h2>
-  <div id="messages">
-    messages here
-  </div>
-  <button onclick="loadMessages()">Load Messages</button>
-  <br>
-  <textarea name="messagebox" rows="10" cols="30">The cat was playing in the garden.</textarea>
-  <br>
-  <button id="postMsg" onclick="publish()">Send</button>
-  <p id=”heading”>heading</p>
+  <p>Enter chat and press enter.</p>
+  <input id="input" placeholder="Your Message Here"/>
+  <p>Chat Output:<p>
+  <div id="box"></div>
 
 </body>
 
-<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.23.0.min.js"></script>
 
 
 <!-- Instantiate PubNub -->
 <script type="text/javascript">
 
-var pubnubDemo = new PubNub({
+var pubnub = new PubNub({
 
 publishKey: 'pub-c-701807e9-652b-4981-9bef-a6024c7daefd',
 
@@ -53,25 +47,18 @@ function getDirection(degrees) {
     return 'west'
   }
 }
-
-// Publish a simple message to the “demo_tutorial” channel pubnub:
-function publish() {
-  var messagetxt = document.getElementById("messagebox").innerHTML;
-  var direction = getDirection(currentHeading);
-  pubnubDemo.publish({ message: { "color" : messagetxt }, channel: direction });
-
-}
-function loadMessages() {
-  var direction = getDirection(currentHeading);
-  pubnubDemo.subscribe({ channels: [direction]} );
-}
-
-pubnubDemo.addListener({
-  message: function(message){
-    console.log(message)
-    document.getElementById("messages").innerHTML += '<br> ' + message;
-  }
-});
+(function(){
+  var box = document.getElementById("box"), input = document.getElementById("input"), channel = getDirection(currentHeading);
+  pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
+  pubnub.addListener({message: function(m) {
+       box.innerHTML = (''+m.message).replace( /[<>]/g, '' ) + '<br>' + box.innerHTML; // Add message to page.
+    }});
+  input.addEventListener('keypress', function (e) {
+      (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed.
+          channel : channel, message : input.value, x : (input.value='')
+      });
+  });
+})();
 
 // Get event data
 function deviceOrientationListener(event) {
