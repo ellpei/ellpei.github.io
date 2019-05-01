@@ -1,0 +1,19 @@
+
+html {
+  width: 100%;
+  background-color:  	#e8ddda;
+  color: #000000;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+#box {
+  padding: 20px;
+  background-color: 	#f4f0ef;
+  border-radius: 30px;
+}
+
+input {
+  border-radius: 50px;
+  padding: 10px;
+  border: none;
+  min-width: 500px;
+}
