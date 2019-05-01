@@ -77,20 +77,23 @@ function deviceOrientationListener(event) {
     var heading = alpha
     document.getElementById("heading").innerHTML = heading.toFixed([0]);
     currentHeading = heading.toFixed([0]);
+    //change channel
+    currentchannel = getDirection(currentHeading);
+    pubnub.unsubscribeAll(); //unsubscripe to previous channel
+    pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
+    document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
   }
   else {
     var heading = 360 - alpha; //heading [0, 360)
     document.getElementById("heading").innerHTML = heading.toFixed([0]);
     currentHeading = heading.toFixed([0]);
-  }
-  if(channel != getDirection(currentHeading)) {
     //change channel
     currentchannel = getDirection(currentHeading);
-    document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
+    pubnub.unsubscribeAll(); //unsubscripe to previous channel
+    pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
+    document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
   }
-  pubnub.unsubscribeAll(); //unsubscripe to previous channel
-  pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
-  document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
+
 };
 
 function sendMessage() {
