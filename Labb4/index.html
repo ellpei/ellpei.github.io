@@ -85,13 +85,12 @@ function deviceOrientationListener(event) {
   }
   if(channel != getDirection(currentHeading)) {
     //change channel
-    channel = getDirection(currentHeading);
+    currentchannel = getDirection(currentHeading);
     document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
   }
   pubnub.unsubscribeAll(); //unsubscripe to previous channel
-  pubnub.subscribe({channels: [channel]}); // Subscribe to the new channel
-  document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
-
+  pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
+  document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 };
 
 function sendMessage() {
