@@ -53,18 +53,28 @@ function getDirection(degrees) {
 }
 //initialization
 
+var channelListener = {
+  message: function(m) {
+    box.innerHTML = box.innerHTML + 'channel ' + currentchannel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
+  }
+};
 var box = document.getElementById("box");
 var input = document.getElementById("input");
 var currentchannel = getDirection(0);
 document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 
 pubnub.subscribe({channels: [currentchannel]}); // Subscribe to a channel.
-pubnub.addListener({message: function(m) {
-     box.innerHTML = box.innerHTML + 'channel ' + currentchannel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
-}});
+pubnub.addListener(channelListener);
+//event listeners
 document.getElementById("sendMsg").addEventListener("click", sendMessage);
 window.addEventListener("deviceorientation", deviceOrientationListener, true);
+input.addEventListener('keypress', publish, true);
 
+var channelListener = {
+    message: function() {
+      box.innerHTML = box.innerHTML + 'channel ' + currentchannel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
+    }
+}
 // Get event data
 function deviceOrientationListener(event) {
   var alpha   = event.alpha; //z axis rotation [0,360)
@@ -77,24 +87,23 @@ function deviceOrientationListener(event) {
     var heading = alpha
     document.getElementById("heading").innerHTML = heading.toFixed([0]);
     currentHeading = heading.toFixed([0]);
-    //change channel
-    currentchannel = getDirection(currentHeading);
-    pubnub.unsubscribeAll(); //unsubscripe to previous channel
-    pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
-    document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
   }
   else {
     var heading = 360 - alpha; //heading [0, 360)
     document.getElementById("heading").innerHTML = heading.toFixed([0]);
     currentHeading = heading.toFixed([0]);
-    //change channel
-    currentchannel = getDirection(currentHeading);
-    pubnub.unsubscribeAll(); //unsubscripe to previous channel
-    pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
-    document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
-  }
 
+  }
+  //change channel
+  currentchannel = getDirection(currentHeading);
+  pubnub.unsubscribeAll(); //unsubscripe to previous channel
+  pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
+  pubnub.removeListener(channelListener);
+  pubnub.addListener(channelListener);
+  document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 };
+
+
 
 function sendMessage() {
   pubnub.publish({channel : currentchannel, message : input.value, x : (input.value='')})
@@ -106,7 +115,6 @@ function publish(e) {
   }
 };
 
-input.addEventListener('keypress', publish, true);
 
 </script>
 
