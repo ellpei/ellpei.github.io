@@ -17,11 +17,12 @@
     messages here
   </div>
   <button onclick="loadMessages()">Load Messages</button>
-  <p id=”heading”></p>
-
+  <br>
   <textarea name="messagebox" rows="10" cols="30">The cat was playing in the garden.</textarea>
   <br>
-  <button id="postMsg" onclick="publish">Send</button>
+  <button id="postMsg" onclick="publish()">Send</button>
+  <p id=”heading”>heading</p>
+
 </body>
 
 <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
@@ -39,8 +40,6 @@ subscribeKey: 'sub-c-543d2354-6bff-11e9-81d5-56c3556875f9'
 });
 
 var currentHeading;
-
-// 'north', 'south', 'east', 'west'
 
 function getDirection(degrees) {
 
