@@ -16,14 +16,14 @@
   <input id="input" placeholder="Your Message Here"/>
   <p>Chat Output:<p>
   <div id="box"></div>
-
+  <p id="heading"></p>
 </body>
 
 <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.23.0.min.js"></script>
 
 
 <!-- Instantiate PubNub -->
-<script type="text/javascript">
+<script>
 
 var pubnub = new PubNub({
 
@@ -34,6 +34,7 @@ subscribeKey: 'sub-c-543d2354-6bff-11e9-81d5-56c3556875f9'
 });
 
 var currentHeading;
+window.addEventListener("deviceorientation", deviceOrientationListener, true);
 
 function getDirection(degrees) {
 
@@ -48,11 +49,14 @@ function getDirection(degrees) {
   }
 }
 (function(){
+
   var box = document.getElementById("box"), input = document.getElementById("input"), channel = getDirection(currentHeading);
+  alert("sent to channel " + channel)
   pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
   pubnub.addListener({message: function(m) {
        box.innerHTML = (''+m.message).replace( /[<>]/g, '' ) + '<br>' + box.innerHTML; // Add message to page.
     }});
+
   input.addEventListener('keypress', function (e) {
       (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed.
           channel : channel, message : input.value, x : (input.value='')
@@ -62,6 +66,7 @@ function getDirection(degrees) {
 
 // Get event data
 function deviceOrientationListener(event) {
+  alert("hej")
   var alpha   = event.alpha; //z axis rotation [0,360)
   var beta     = event.beta; //x axis rotation [-180, 180]
   var gamma   = event.gamma; //y axis rotation [-90, 90]
@@ -78,7 +83,6 @@ function deviceOrientationListener(event) {
     var heading = 360 - alpha; //heading [0, 360)
     document.getElementById("heading").innerHTML = heading.toFixed([0]);
     currentHeading = heading.toFixed([0]);
-
   }
 }
 
