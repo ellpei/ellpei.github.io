@@ -38,7 +38,6 @@ subscribeKey: 'sub-c-543d2354-6bff-11e9-81d5-56c3556875f9'
 });
 
 var currentHeading = 0;
-window.addEventListener("deviceorientation", deviceOrientationListener, true);
 
 function getDirection(degrees) {
 
@@ -52,32 +51,21 @@ function getDirection(degrees) {
     return 'west'
   }
 }
-
+//initialization
 
 var box = document.getElementById("box");
 var input = document.getElementById("input");
 var channel = getDirection(currentHeading);
 document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
+
 pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
 pubnub.addListener({message: function(m) {
      box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
-  }});
-/*
-(function(){
+}});
 
-  var box = document.getElementById("box"), input = document.getElementById("input"), channel = getDirection();
-  pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
-  pubnub.addListener({message: function(m) {
-       box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
-    }});
 
-  input.addEventListener('keypress', function (e) {
-      (e.keyCode || e.charCode) === 13 && pubnub.publish({ // Publish new message when enter is pressed.
-          channel : channel, message : input.value, x : (input.value='')
-      });
-  });
-})();
-*/
+window.addEventListener("deviceorientation", deviceOrientationListener, true);
+
 // Get event data
 function deviceOrientationListener(event) {
   var alpha   = event.alpha; //z axis rotation [0,360)
@@ -101,11 +89,11 @@ function deviceOrientationListener(event) {
     channel = getDirection(currentHeading);
     document.getElementById("chatroom").innerHTML = 'Chat Room: ' + channel;
   }
-
-  pubnub.subscribe({channels: [channel]}); // Subscribe to a channel.
+  pubnub.unsubscribeAll(); //unsubscripe to previous channel
+  pubnub.subscribe({channels: [channel]}); // Subscribe to the new channel
   pubnub.addListener({message: function(m) {
        box.innerHTML = box.innerHTML + 'channel ' + channel + ': ' + (''+m.message).replace( /[<>]/g, '' ) + '<br>'; // Add message to page.
-    }});
+  }});
 
 };
 
@@ -116,7 +104,8 @@ function publish(e) {
     pubnub.publish({channel : channel, message : input.value, x : (input.value='')})
   }
 };
-input.addEventListener('keypress', publish);
+
+input.addEventListener('keypress', publish, true);
 
 </script>
 
