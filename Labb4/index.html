@@ -60,7 +60,7 @@ var channelListener = {
 };
 var box = document.getElementById("box");
 var input = document.getElementById("input");
-var currentchannel = getDirection(0);
+var currentchannel = getDirection(0); //start at north
 document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 
 pubnub.subscribe({channels: [currentchannel]}); // Subscribe to a channel.
@@ -98,8 +98,8 @@ function deviceOrientationListener(event) {
   currentchannel = getDirection(currentHeading);
   pubnub.unsubscribeAll(); //unsubscribe to previous channel
   pubnub.subscribe({channels: [currentchannel]}); // Subscribe to the new channel
-  //pubnub.removeListener(channelListener);
-  //pubnub.addListener(channelListener);
+  pubnub.removeListener(channelListener);
+  pubnub.addListener(channelListener);
   document.getElementById("chatroom").innerHTML = 'Chat Room: ' + currentchannel;
 };
 
