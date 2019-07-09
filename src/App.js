@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import './App.css';
 import Home from './Home/Home';
 import About from './About/About';
+import Contact from './Contact/Contact';
+import Navbar from './Navbar/Navbar';
 
 class App extends Component {
 
@@ -17,10 +19,12 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-      <header className='App-header'>
-        <Route exact path='/' component={Home}/>
-        <Route exact path='/About' component={About}/>
-      </header>
+        <header className='App-header'>
+            <Route exact path='/' component={Home}/>
+            <Route exact path='/About' component={About}/>
+            <Route exact path='/Contact' component={Contact}/>
+            <Navbar/>
+        </header>
       </div>
     )
   }
