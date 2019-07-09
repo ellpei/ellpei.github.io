@@ -1,10 +1,26 @@
 
+.Navbar {
+  text-align: center;
+}
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
 }
+
+.top-navbar-hidden {
+  position: fixed;
+  left: 0px;
+  top: 20px;
+  font-size: 24px;
+
+  transform: translateY(-50px);
+  transition: all 0.5s linear;
+
+}
+
+
 li {
   float:left;
 }
@@ -14,10 +30,12 @@ li a {
   text-align: center;
 }
 
-.Navbar {
+
+
+.top-navbar {
   position: fixed;
+  left: 0px;
   top: 20px;
-  border-color: white;
   font-size: 24px;
 }
 
