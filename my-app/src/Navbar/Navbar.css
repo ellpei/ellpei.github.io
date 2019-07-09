@@ -1,0 +1,55 @@
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+li {
+  float:left;
+}
+
+li a {
+  display: block;
+  text-align: center;
+}
+
+.Navbar {
+  position: fixed;
+  top: 20px;
+  border-color: white;
+  font-size: 24px;
+}
+
+a {
+  margin-left: 20px;
+  margin-right: 20px;
+  text-decoration: none;
+  color: white;
+  font-weight: lighter;
+}
+
+a:active {
+  color: pink;
+}
+
+a:hover {
+}
+
+.active {
+  color: pink;
+  font-weight: bold;
+}
+
+a:focus {
+  font-weight: bold;
+  outline: none;
+}
+
+.go-top-btn {
+  float: right;
+  position: fixed;
+  font-size: 60px;
+  right: 30px;
+  bottom: 0px;
+}
