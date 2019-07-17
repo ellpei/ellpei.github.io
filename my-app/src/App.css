@@ -1,8 +1,8 @@
 .App {
   text-align: center;
   top: 0;
-
-
+  width: 100%;
+  margin: 0;
 }
 
 .App-logo {
@@ -17,6 +17,8 @@
   /*background-color: #dbdee3;*/
 
   min-height: 100vh;
+  width: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;

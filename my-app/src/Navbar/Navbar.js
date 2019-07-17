@@ -59,7 +59,10 @@ class Navbar extends Component {
           <ul className="nav-items">
             <li className="nav-item"><Link activeClass="active" to='home' spy={true} smooth={true} offset={-70} duration={500} onSetActive={this.toggleTopBtn} onSetInactive={this.toggleTopBtn}>Home</Link></li>
             <li className="nav-item"><Link activeClass="active" to="about" spy={true} smooth={true} offset={-70} duration={500}>About</Link></li>
+            <li className="nav-item"><Link activeClass="active" to="projects" spy={true} smooth={true} offset={-70} duration={500}>Projects</Link></li>
+
             <li className="nav-item"><Link activeClass="active" to="contact" spy={true} smooth={true} offset={-70} duration={500}>Contact</Link></li>
+
           </ul>
 
         </div>

@@ -1,0 +1,62 @@
+.Projects {
+  color: black;
+  height: 100vh;
+  width: 80vw;
+}
+.Projects h1 {
+  text-align: left;
+}
+.bubble-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+.bubble {
+  width: 200px;
+  height: 200px;
+  border-style: solid;
+  border-color: black;
+  color: black;
+  background-color: transparent;
+  font-size: 24px;
+  border-radius: 20px 0px 20px 0px;
+  border-width: 3px;
+  padding: 20px;
+  margin: 10px;
+
+}
+
+.infobox div {
+  padding: 5% 10% 0% 10%;
+  border-radius: 10px;
+  height: 500px;
+}
+
+button:hover {
+  background-color: black;
+  color: white;
+  transition: background-color 0.4s linear; 
+
+}
+
+button:active {
+  outline: none;
+  background-color: black;
+
+}
+
+button:focus {
+  outline: none;
+  background-color: black;
+  color: white;
+}
+
+.github-link {
+  background-color: transparent;
+  border-style: none;
+  border-radius:100%;
+  color: black;
+  font-size: 30px;
+}

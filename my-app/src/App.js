@@ -4,6 +4,7 @@ import './App.css';
 import './index.css';
 import Home from './Home/Home';
 import About from './About/About';
+import Projects from './Projects/Projects';
 import Contact from './Contact/Contact';
 import Navbar from './Navbar/Navbar';
 import {Link, animateScroll as scroll} from "react-scroll";
@@ -36,6 +37,9 @@ class App extends Component {
           </div>
           <div name="about">
             <About/>
+          </div>
+          <div name="projects">
+            <Projects/>
           </div>
           <div name="contact">
             <Contact/>

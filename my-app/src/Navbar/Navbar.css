@@ -48,14 +48,14 @@ a {
 }
 
 a:active {
-  color: pink;
+  color: #E05C5D;
 }
 
 a:hover {
 }
 
 .active {
-  color: #f7939d;
+  color: #E05C5D;
   font-weight: bold;
 }
 
@@ -70,4 +70,5 @@ a:focus {
   font-size: 60px;
   right: 30px;
   bottom: 0px;
+  color: black;
 }

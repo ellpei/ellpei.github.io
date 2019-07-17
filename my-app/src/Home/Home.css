@@ -2,18 +2,16 @@
   height: 85vh;
   width: 100%;
 }
-
-.Home .page {
-  height: 100%;
-  text-align: center;
-  position: relative;
-}
-.Home .page .textbox {
+.Home .textbox {
   display: inline-block;
   margin-top: 50%;
   opacity:0;
   display:block;
   animation: slidein 1s ease-out forwards;
+  text-align: left;
+  background-color: black;
+  border-radius: 50px 0px 50px 0px;
+  padding: 50px;
 }
 
 @keyframes slidein{
