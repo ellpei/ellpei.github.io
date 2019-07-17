@@ -1,0 +1,22 @@
+.Home {
+  height: 85vh;
+  width: 100%;
+}
+
+.Home .page {
+  height: 100%;
+  text-align: center;
+  position: relative;
+}
+.Home .page .textbox {
+  display: inline-block;
+  margin-top: 50%;
+  opacity:0;
+  display:block;
+  animation: slidein 1s ease-out forwards;
+}
+
+@keyframes slidein{
+  0%{ opacity:0; transform:translateY(-25px); }
+  100%{ opacity:1; transform:translateY(0px); }
+}

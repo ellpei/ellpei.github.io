@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-import Navbar from '../Navbar/Navbar';
+import './Home.css';
 
 class Home extends Component {
 
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
-      <div className="page">
-        <h1>Hello</h1>
+      <div className="Home">
+        <div className="page">
+          <div className="textbox">
+            <h1 className="line1">Hi,</h1>
+            <h1 className="line2">I am LouLou</h1>
+          </div>
+        </div>
       </div>
     );
   }

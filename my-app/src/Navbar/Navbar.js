@@ -9,7 +9,8 @@ class Navbar extends Component {
 
     this.state = {
       prevScrollpos: window.pageYOffset,
-      visible: true
+      visible: true,
+      home: true,
     }
   }
 
@@ -30,7 +31,7 @@ class Navbar extends Component {
 
     this.setState({
       prevScrollpos: currentScrollPos,
-      visible: visible
+      //visible: visible
     });
   }
 
@@ -38,20 +39,33 @@ class Navbar extends Component {
     scroll.scrollToTop();
   };
 
+  toggleTopBtn = () => {
+    if(this.state.showTopBtn) {
+      this.setState({
+        showTopBtn: false
+      });
+    } else {
+      this.setState({
+        showTopBtn: true
+      });
+    }
+  }
+
   render() {
     return (
       <div className="Navbar">
       <nav className={ (this.state.visible ? "top-navbar" : "top-navbar-hidden")} id="navbar">
         <div className="nav-content">
           <ul className="nav-items">
-            <li className="nav-item"><Link activeClass="active" to='home' spy={true} smooth={true} offset={-70} duration={500}>Home</Link></li>
+            <li className="nav-item"><Link activeClass="active" to='home' spy={true} smooth={true} offset={-70} duration={500} onSetActive={this.toggleTopBtn} onSetInactive={this.toggleTopBtn}>Home</Link></li>
             <li className="nav-item"><Link activeClass="active" to="about" spy={true} smooth={true} offset={-70} duration={500}>About</Link></li>
             <li className="nav-item"><Link activeClass="active" to="contact" spy={true} smooth={true} offset={-70} duration={500}>Contact</Link></li>
           </ul>
 
         </div>
       </nav>
-      <div className="go-top-btn" onClick={this.scrollToTop}>&#8963;</div>
+
+      { this.state.showTopBtn ? null: <div className="go-top-btn" onClick={this.scrollToTop}>&#8963;</div>}
       </div>
     );
   }
