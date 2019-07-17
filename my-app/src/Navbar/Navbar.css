@@ -91,6 +91,8 @@ a:focus {
 		display: block;
 		width: 100%;
 		float: right;
+    animation: slidein 1s ease-out forwards;
+
 	}
 
 	#nav-items.responsive li {
@@ -101,4 +103,10 @@ a:focus {
 	}
 
 
+}
+
+
+@keyframes slidein{
+  0%{ opacity:0; transform:translateY(-25px); }
+  100%{ opacity:1; transform:translateY(0px); }
 }
