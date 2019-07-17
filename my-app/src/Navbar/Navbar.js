@@ -11,7 +11,9 @@ class Navbar extends Component {
       prevScrollpos: window.pageYOffset,
       visible: true,
       home: true,
+      menuVisible: false
     }
+
   }
 
   componentDidMount() {
@@ -51,20 +53,30 @@ class Navbar extends Component {
     }
   }
 
+  toggleMenu = () => {
+    var x = document.getElementById("nav-items");
+    if(x.className === "nav-items") {
+      x.className += " responsive";
+      this.setState({menuVisible: true})
+    } else {
+      x.className = "nav-items";
+      this.setState({menuVisible: false})
+    }
+  }
+
   render() {
     return (
       <div className="Navbar">
       <nav className={ (this.state.visible ? "top-navbar" : "top-navbar-hidden")} id="navbar">
         <div className="nav-content">
-          <ul className="nav-items">
+          { this.state.menuVisible ? <button className="icon" onClick={this.toggleMenu}>&#10005;</button> : <button className="icon" onClick={this.toggleMenu}>&#8801;</button> }
+
+          <ul id="nav-items" className="nav-items">
             <li className="nav-item"><Link activeClass="active" to='home' spy={true} smooth={true} offset={-70} duration={500} onSetActive={this.toggleTopBtn} onSetInactive={this.toggleTopBtn}>Home</Link></li>
             <li className="nav-item"><Link activeClass="active" to="about" spy={true} smooth={true} offset={-70} duration={500}>About</Link></li>
             <li className="nav-item"><Link activeClass="active" to="projects" spy={true} smooth={true} offset={-70} duration={500}>Projects</Link></li>
-
             <li className="nav-item"><Link activeClass="active" to="contact" spy={true} smooth={true} offset={-70} duration={500}>Contact</Link></li>
-
           </ul>
-
         </div>
       </nav>
 

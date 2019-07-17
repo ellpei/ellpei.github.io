@@ -9,9 +9,9 @@ class Home extends Component {
       <div className="Home">
 
           <div className="textbox">
-            <h1>Emelie</h1>
-            <h1>LouLou</h1>
-            <h1>Pei</h1>
+            <h1 textAlign="right">Emelie</h1>
+            <h1 textAlign="right">LouLou</h1>
+            <h1 textAlign="right">Pei</h1>
           </div>
       </div>
     );
